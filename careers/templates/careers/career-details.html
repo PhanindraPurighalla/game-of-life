@@ -1,0 +1,65 @@
+{% extends 'careers/base/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ career_name }}{% endblock %}
+
+{% block site_css %}
+    <link rel="stylesheet" href="{% static 'careers/styles/career-details.css' %}">
+{% endblock %}
+
+
+{% block body %}
+    <article>
+        <img src="" alt="">
+        <section id="careertype">
+            <h2>Career Type</h2>
+            <p>This career <span>{{ career_requires_college_degree_text }}</span> a College degree</p>
+            <footer>
+                <p>Need more details? Please <a href="">contact phanindra.purighalla@gmail.com</a> </p>
+            </footer>
+        </section>
+        <section id="details">
+            <h2>Know your career!!</h2>
+            <table>
+        
+                <thead>
+                    <tr>
+                        <th>Base Salary</th>
+                        <th>Max Salary</th>
+                        <th>Taxes Due</th>
+                        <th>Special Attributes</th>
+                    </tr>
+                    <tr>
+                        <td>{{ career_base_salary }}</td>
+                        
+                        {% if career_max_salary %}
+                            <td>{{ career_max_salary }}</td>
+                        {% else %}
+                            <td>No Maximum Salary!!</td>
+                        {% endif %}    
+                        
+                        <td>{{ career_taxes_due }}</td>
+                        
+                        {% if career_special_attributes %}
+                        <td>{{ career_special_attributes.0.action }} 
+                            {{ career_special_attributes.0.amount }}
+                            {{ career_special_attributes.0.name }} when
+                            {{ career_special_attributes.0.activation_number }} is spun
+                        </td>
+                        {% else %}
+                        <td>None</td>
+                        {% endif %}
+
+                    </tr>
+                </thead>
+                
+            </table>
+
+        </section>
+        <section id="play">
+            <h2>Spin to begin your turn!!</h2>
+            FORM
+        </section>
+    </article>
+{% endblock %}

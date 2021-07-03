@@ -1,0 +1,15 @@
+<li class="player-item">
+    <article>
+        <div class="player-summary">
+            <div class="player-image">
+                <img src="" alt="">
+            </div>
+            <div class="player-details">
+                <h3>{{ player.name }} </h3>                                
+            </div>
+        </div>
+        <div class="player-actions">
+            <a href="{% url 'player-details' player.slug %}" class="btn">SPIN</a>
+        </div>
+    </article>
+</li>

@@ -1,0 +1,28 @@
+{% extends 'careers/base/base.html' %}
+
+{% load static %}
+
+{% block title %}All Careers{% endblock %}
+
+{% block site_css %}
+    <link rel="stylesheet" href="{% static 'careers/styles/all-careers.css' %}">
+{% endblock %}
+    
+{% block main_heading %}
+    <h1>Graduate from college to become {{ college_careers_to_use }} in this Game of Life!!</h1>
+{% endblock %}
+
+{% block header_content %}
+    <h1>Alternatively, dive straight in as {{ regular_career_to_use }}!!!</h1>
+{% endblock %}
+
+{% block body %}
+    <section>
+        <h2>All Careers</h2>
+        <ol>
+            {% for career_item in careers %}
+                {% include 'careers/includes/career-item.html' with name=career_item.name %}
+            {% endfor %}
+        </ol>
+    </section>
+{% endblock %}

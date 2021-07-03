@@ -1,0 +1,49 @@
+{% extends 'players/base/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ player_name }}{% endblock %}
+
+{% block site_css %}
+    <link rel="stylesheet" href="{% static 'players/styles/player-details.css' %}">
+{% endblock %}
+
+
+{% block body %}
+    <article>
+        <img src="" alt="">
+        
+        {% if not already_spun %}
+        <section id="details">
+            <h2>Number spun: {{ number_spun }}</h2>
+            <table>
+        
+                <thead>
+                    <tr>
+                        <th>Cash</th>
+                        <th>Bank Loans</th>
+                        <th>Base Salary</th>
+                        <th>Current Salary</th>
+                        <th>Taxes Due</th>
+                        <th>Board Position</th>
+                    </tr>
+                    <tr>
+                        <td>{{ player_cash }}</td>
+                        <td>{{ player_bank_loans }}</td>
+                        <td>{{ player_base_salary }}</td>
+                        <td>{{ player_curr_salary }}</td>
+                        <td>{{ player_taxes_due }}</td>
+                        <td>{{ player_board_position }}</td>
+                    </tr>
+                </thead>   
+            </table>
+        </section>
+        {% endif %}
+        <section id="play">
+            <h2>Next player to spin!!</h2>
+            <div class="player-actions">
+                <a href="{% url 'all-players' %}" class="btn">NEXT PLAYER</a>
+            </div>
+        </section>
+    </article>
+{% endblock %}

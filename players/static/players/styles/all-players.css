@@ -1,0 +1,58 @@
+section {
+    max-width: 40rem;
+    margin: 3rem auto;
+  }
+  
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .player-item {
+    margin: 1rem 0;
+    background-color: #350490;
+    padding: 2rem;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  .player-summary {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .player-image {
+    margin-right: 2rem;
+  }
+  
+  .player-image img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .player-details h3 {
+    color: inherit;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+  }
+
+  .player-actions {
+    margin-top: 1.5rem;
+    text-align: right;
+  }
+  
+  .player-actions .btn {
+    background-color: #cb82fb;
+    border-color: #cb82fb;
+    color: #350490;
+    padding: 0.75rem 2rem;
+  }
+  
+  .player-actions .btn:hover {
+    background-color: #ba82fb;
+    border-color: #ba82fb;
+  }

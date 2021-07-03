@@ -1,0 +1,28 @@
+{% extends 'players/base/base.html' %}
+
+{% load static %}
+
+{% block title %}All Players{% endblock %}
+
+{% block site_css %}
+    <link rel="stylesheet" href="{% static 'players/styles/all-players.css' %}">
+{% endblock %}
+    
+{% block main_heading %}
+    <h1>Each player shall spin the wheel. </h1>
+{% endblock %}
+
+{% block header_content %}
+    <h1>The player spinning the highest number starts the Game of Life!!! </h1>
+{% endblock %}
+
+{% block body %}
+    <section>
+        {% include 'players/includes/player-item.html' %}
+        <ol>
+            <!-- {% for player_item in players %} -->
+                <!-- {% include 'players/includes/player-item.html' %} -->
+            <!-- {% endfor %} -->
+        </ol>
+    </section>
+{% endblock %}

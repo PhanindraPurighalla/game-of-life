@@ -1,0 +1,15 @@
+<li class="career-item">
+    <article>
+        <div class="career-summary">
+            <div class="career-image">
+                <img src="" alt="">
+            </div>
+            <div class="career-details">
+                <h3>{{ name }}</h3>                                
+            </div>
+        </div>
+        <div class="career-actions">
+            <a href="{% url 'career-details' career_item.slug %}" class="btn">More Details</a>
+        </div>
+    </article>
+</li>
