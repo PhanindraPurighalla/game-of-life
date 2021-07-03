@@ -10,12 +10,70 @@
 
 
 {% block body %}
-    <article>
-        <img src="" alt="">
+
+
+
+    <section class="play">
+        {% if not positions_sorted %}
+            <h2>Spin for positions</h2>
+        {% else %}
+            <h2>Spin your turn</h2>
+        {% endif %}       
+        <div class="player-details">
+            <h3>{{ player.name }} </h3>  
+            <h3>{{ player.id }} </h3>
+            <h3>{{ player.slug }} </h3>                          
+        </div>
+        <div class="player-actions">
+            <a href="{% url 'player-details' next_player_slug %}" class="btn">{{ next_player_slug }}</a>
+        </div>
+    
+
+   
+    
+{% if positions_sorted %}
+<section>
+    <h2>Game to begin with the below Player positions</h2>
+    <table>
         
-        {% if not already_spun %}
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+            </tr>
+            {% for player_item in players %}
+                <tr>
+                    <td>{{ player_item.name }}</td>
+                    <td>{{ player_item.id }}</td>
+                </tr>
+            {% endfor %}
+        </thead>       
+    </table>
+</section>
+{% endif %}
+
+<section>
+    <h2>Player Spins</h2>
+    <table>
+        
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number spun</th>
+            </tr>
+    {% for player_item in players %}
+            <tr>
+                <td>{{ player_item.name }}</td>
+                <td>{{ player_item.number_spun }}</td>
+            </tr>
+        
+    {% endfor %}
+        </thead>       
+    </table>
+</section>
+        
         <section id="details">
-            <h2>Number spun: {{ number_spun }}</h2>
+            
             <table>
         
                 <thead>
@@ -38,12 +96,6 @@
                 </thead>   
             </table>
         </section>
-        {% endif %}
-        <section id="play">
-            <h2>Next player to spin!!</h2>
-            <div class="player-actions">
-                <a href="{% url 'all-players' %}" class="btn">NEXT PLAYER</a>
-            </div>
-        </section>
-    </article>
+    </section>
+        
 {% endblock %}

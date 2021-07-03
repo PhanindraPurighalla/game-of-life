@@ -4,7 +4,12 @@ import random
 # Create your views here.
 def index(request):
 
-    del request.session['spun_players']
+    if request.session.get('players'):
+        request.session.get('players').clear()
+
+    request.session['curr_player_index'] = 0
+    request.session['positions_sorted'] = False
+
     players = [
         { 
             'id': 1,
@@ -40,65 +45,61 @@ def index(request):
 
     request.session['players'] = players
     i = request.session.get('curr_player_index', 0)
-    i += 1
+    i += players[0]['id']
     if i == 6:
-        i = 0
+        i = 1
     request.session['curr_player_index'] = i
     
     request.session.modified = True
 
     return render(request, 'players/index.html', {
-        'player': players[i]
+        'player': [player for player in players if player['id'] == i][0]
     })
 
 def player_details(request, player_slug):
-    spun_players = request.session.get('spun_players', {})
-    print('Printing from session')
-    print(spun_players)
-    print('Printed from session')
+    positions_sorted = request.session.get('positions_sorted', False)
 
     players = request.session['players']
-    print('Players playing the game')
-    print(players)
     
-    selected_player = { 
-            'id': 3,
-            'name': 'Player 3',
-            'cash': 250000,
-            'bank_loans': 100000,
-            'base_salary': 50000,
-            'pay_raise': 30000,
-            'taxes_due': 20000,
-            'board_position': 0
-        }
+    selected_player = next(player for player in players if player['slug'] == player_slug)
     number_spun = random.randint(1,10)
-    spin_again = False
-    if number_spun in spun_players.values():
-        spin_again = True
-        print('Spin Again')
     
-    spun_players[player_slug] = number_spun
-    request.session['spun_players'] = spun_players
+    while number_spun in [player['number_spun'] for player in players if 'number_spun' in player]:
+        number_spun = random.randint(1,10)
+    selected_player['number_spun'] = number_spun
+    [player.update({'number_spun': number_spun}) for player in players if player.get('slug') == player_slug]
+
+    
+    next_player_id = selected_player['id'] + 1
+    if next_player_id == 7:
+        next_player_id = 1
+
+    if not positions_sorted and len(players) == len([k['number_spun'] for k in players if k.get('number_spun')]):
+        playing_position = 1
+        for sorted_player in sorted(players, key = lambda i: i['number_spun'], reverse = True):
+            sorted_player['id'] = playing_position
+            playing_position += 1
+
+        positions_sorted = True
+        request.session['positions_sorted'] = positions_sorted
+        request.session.modified = True
+        next_player_id = 1
+
+    request.session['players'] = players
     request.session.modified = True
 
-    if len(spun_players) == len(players):
-        print('All players have spun for positions')
-        print('Sort players based on numbers spun')
-
-        for item in players:
-            item['spin_value'] = spun_players[item['slug']]
-
-    print('Players is now as below')
-    print(players)
+    next_player_slug = next(player for player in players if player['id'] == next_player_id)['slug']
     
     return render(request, 'players/player-details.html', {
         'player_name': player_slug,
-        'player_cash': selected_player['cash'],
-        'player_base_salary': selected_player['base_salary'],
-        'player_bank_loans': selected_player['bank_loans'],
-        'player_curr_salary': selected_player['base_salary'] + selected_player['pay_raise'],
-        'player_taxes_due': selected_player['taxes_due'],
-        'player_board_position': selected_player['board_position'] + number_spun,
-        'number_spun': number_spun,
-        'spin_again': spin_again
+        'player_cash': selected_player.get('cash', 0),
+        'player_base_salary': selected_player.get('base_salary',0),
+        'player_bank_loans': selected_player.get('bank_loans',0),
+        'player_curr_salary': selected_player.get('base_salary',0) + selected_player.get('pay_raise',0),
+        'player_taxes_due': selected_player.get('taxes_due',0),
+        'player_board_position': selected_player.get('board_position',0) + number_spun,
+        'number_spun': selected_player['number_spun'],
+        'next_player_slug': next_player_slug,
+        'players': players,
+        'positions_sorted': positions_sorted
     })
